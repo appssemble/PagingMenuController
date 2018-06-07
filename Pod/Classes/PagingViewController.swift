@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol PagingItem {
+    func didBecomeCurrentItem()
+}
+
 open class PagingViewController: UIViewController {
     public let controllers: [UIViewController]
     public internal(set) var currentViewController: UIViewController!
@@ -204,6 +208,10 @@ open class PagingViewController: UIViewController {
     // MARK: - Internal
     
     internal func relayoutPagingViewControllers() {
+        if let pagingItem = currentViewController as? PagingItem {
+            pagingItem.didBecomeCurrentItem()
+        }
+        
         constructPagingViewControllers()
         layoutPagingViewControllers()
         view.setNeedsLayout()
