@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol PagingItem {
+public protocol PagingItem {
     func didBecomeCurrentItem()
 }
 
