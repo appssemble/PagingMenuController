@@ -208,14 +208,16 @@ open class PagingViewController: UIViewController {
     // MARK: - Internal
     
     internal func relayoutPagingViewControllers() {
-        if let pagingItem = currentViewController as? PagingItem {
-            pagingItem.didBecomeCurrentItem()
-        }
-        
         constructPagingViewControllers()
         layoutPagingViewControllers()
         view.setNeedsLayout()
         view.layoutIfNeeded()
+    }
+    
+    internal func didBecomeCurrentItem() {
+        if let pagingItem = currentViewController as? PagingItem {
+            pagingItem.didBecomeCurrentItem()
+        }
     }
     
     internal func positionMenuController() {

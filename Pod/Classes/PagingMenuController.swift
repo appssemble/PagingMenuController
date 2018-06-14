@@ -182,6 +182,9 @@ open class PagingMenuController: UIViewController {
         let animationClosure = {
             pagingViewController.positionMenuController()
         }
+        
+        pagingViewController.didBecomeCurrentItem()
+        
         let completionClosure = { [weak self] (_: Bool) -> Void in
             pagingViewController.relayoutPagingViewControllers()
 
