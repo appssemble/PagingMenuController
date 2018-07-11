@@ -140,7 +140,9 @@ open class PagingMenuController: UIViewController {
     }
     
     open func move(toPage page: Int, animated: Bool = true) {
-        pagingViewController?.didBecomeCurrentItem()
+        if page != currentPage {
+            pagingViewController?.didBecomeCurrentItem()
+        }
         
         switch options.componentType {
         case .menuView, .all:
