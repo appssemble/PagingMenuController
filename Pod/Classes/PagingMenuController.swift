@@ -140,6 +140,8 @@ open class PagingMenuController: UIViewController {
     }
     
     open func move(toPage page: Int, animated: Bool = true) {
+        pagingViewController?.didBecomeCurrentItem()
+        
         switch options.componentType {
         case .menuView, .all:
             // ignore an unexpected page number
@@ -182,8 +184,6 @@ open class PagingMenuController: UIViewController {
         let animationClosure = {
             pagingViewController.positionMenuController()
         }
-        
-        pagingViewController.didBecomeCurrentItem()
         
         let completionClosure = { [weak self] (_: Bool) -> Void in
             pagingViewController.relayoutPagingViewControllers()
