@@ -40,8 +40,8 @@ open class PagingMenuController: UIViewController {
             
             pagingViewController.contentScrollView.delegate = self
             view.addSubview(pagingViewController.view)
-            addChildViewController(pagingViewController)
-            pagingViewController.didMove(toParentViewController: self)
+            addChild(pagingViewController)
+            pagingViewController.didMove(toParent: self)
         }
     }
     public var onMove: ((MenuMoveState) -> Void)? {
@@ -482,7 +482,7 @@ extension PagingMenuController {
         menuView?.addGestureRecognizer(rightSwipeGestureRecognizer)
     }
     
-    internal func handleTapGesture(_ recognizer: UITapGestureRecognizer) {
+    @objc internal func handleTapGesture(_ recognizer: UITapGestureRecognizer) {
         guard let menuItemView = recognizer.view as? MenuItemView,
             let menuView = menuView,
             let page = menuView.menuItemViews.index(of: menuItemView),
@@ -507,19 +507,19 @@ extension PagingMenuController {
         move(toPage: newPage)
     }
     
-    internal func handleSwipeGesture(_ recognizer: UISwipeGestureRecognizer) {
+    @objc internal func handleSwipeGesture(_ recognizer: UISwipeGestureRecognizer) {
         guard let menuView = recognizer.view as? MenuView,
             let menuOptions = menuOptions else { return }
         
         let newPage: Int
         switch (recognizer.direction, menuOptions.displayMode) {
-        case (UISwipeGestureRecognizerDirection.left, .infinite):
+        case (.left, .infinite):
             newPage = menuView.nextPage
-        case (UISwipeGestureRecognizerDirection.left, _):
+        case (.left, _):
             newPage = min(nextPage, menuOptions.itemsOptions.count - 1)
-        case (UISwipeGestureRecognizerDirection.right, .infinite):
+        case (.right, .infinite):
             newPage = menuView.previousPage
-        case (UISwipeGestureRecognizerDirection.right, _):
+        case (.right, _):
             newPage = max(previousPage, 0)
         default: return
         }
@@ -537,8 +537,8 @@ extension PagingMenuController {
         if let pagingViewController = self.pagingViewController {
             pagingViewController.cleanup()
             pagingViewController.view.removeFromSuperview()
-            pagingViewController.removeFromParentViewController()
-            pagingViewController.willMove(toParentViewController: nil)
+            pagingViewController.removeFromParent()
+            pagingViewController.willMove(toParent: nil)
         }
     }
 }

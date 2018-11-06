@@ -99,9 +99,9 @@ open class PagingViewController: UIViewController {
             if !shouldLoad(page: index) {
                 // remove unnecessary child view controllers
                 if isVisible(controller: controller) {
-                    controller.willMove(toParentViewController: nil)
+                    controller.willMove(toParent: nil)
                     controller.view!.removeFromSuperview()
-                    controller.removeFromParentViewController()
+                    controller.removeFromParent()
                     
                     let _ = visibleControllers.index(of: controller).flatMap { visibleControllers.remove(at: $0) }
                 }
@@ -122,8 +122,8 @@ open class PagingViewController: UIViewController {
             pagingView.translatesAutoresizingMaskIntoConstraints = false
             
             contentScrollView.addSubview(pagingView)
-            addChildViewController(controller as UIViewController)
-            controller.didMove(toParentViewController: self)
+            addChild(controller as UIViewController)
+            controller.didMove(toParent: self)
             
             visibleControllers.append(controller)
         }
@@ -252,10 +252,10 @@ extension PagingViewController {
         visibleControllers.removeAll(keepingCapacity: true)
         currentViewController = nil
         
-        childViewControllers.forEach {
-            $0.willMove(toParentViewController: nil)
+        children.forEach {
+            $0.willMove(toParent: nil)
             $0.view.removeFromSuperview()
-            $0.removeFromParentViewController()
+            $0.removeFromParent()
         }
         
         contentScrollView.removeFromSuperview()
@@ -286,7 +286,7 @@ extension PagingViewController {
     }
     
     fileprivate func isVisible(controller: UIViewController) -> Bool {
-        return self.childViewControllers.contains(controller)
+        return self.children.contains(controller)
     }
     
     fileprivate func hideVisibleControllers() {
